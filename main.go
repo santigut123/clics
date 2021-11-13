@@ -19,4 +19,6 @@ func main() {
 		panic(err)
 	}
 	io.WriteString(conn,fmt.Sprint("Hello World \n",time.Now(),"\n"))
+	fmt.Println("Cool we're printing some shit...\nVery nice.")
+	// adding some stuff
 }
