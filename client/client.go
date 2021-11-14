@@ -18,23 +18,36 @@ import (
 	"bufio"
 	"fmt"
 	"net"
-	// "os"
+	"os"
 )
 
+var connection net.Conn
+
 func main() {
+
 	conn, err := net.Dial("tcp", "localhost:8080")
 	if err != nil {
 		// handle error
 	}
-	fmt.Fprintf(conn, "GET / HTTP/1.0\r\n\r\n")
-	// scanner := bufio.NewScanner(os.Stdin)
+	connection = conn
+	go listen()
+	scanner := bufio.NewScanner(os.Stdin)
 
 	for {
-		// scanner.Scan()
-		status, err := bufio.NewReader(conn).ReadString('\n')
+		scanner.Scan()
+		fmt.Fprintln(conn, scanner.Text())
+	}
+}
+
+func listen() {
+
+	fmt.Fprintf(connection, "GET / HTTP/1.0\r\n\r\n")
+
+	for {
+		status, err := bufio.NewReader(connection).ReadString('\n')
 		if err != nil {
 			// handle error
 		}
-		fmt.Println(status)
+		fmt.Print(status)
 	}
 }

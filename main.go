@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"net"
 )
@@ -31,7 +32,7 @@ func main() {
 
 	for {
 		i++
-		if i%1000000000 == 0 {
+		if i%10000000000 == 0 {
 			for _, e := range connections {
 				fmt.Fprintln(e, i)
 			}
@@ -55,5 +56,17 @@ func listen() {
 		}
 		fmt.Println(conn)
 		connections = append(connections, conn)
+		go client(conn)
+	}
+}
+
+func client(conn net.Conn) {
+	bufio.NewReader(conn).ReadString('\n')
+	for {
+		status, err := bufio.NewReader(conn).ReadString('\n')
+		if err != nil {
+			// handle error
+		}
+		fmt.Print(status)
 	}
 }
