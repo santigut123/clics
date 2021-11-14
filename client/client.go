@@ -29,6 +29,8 @@ func main() {
 
 	name = scanner.Text() + ": "
 
+	fmt.Fprintln(conn, name)
+
 	for {
 		fmt.Print(name)
 		scanner.Scan()
