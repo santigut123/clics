@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"net"
+	"os"
 )
 
 type ChatServer struct {
@@ -23,7 +24,10 @@ func main() {
 
 // Listen for, accept, and append new connections
 func listen() {
-	ln, err := net.Listen("tcp", ":25565")
+	scanner := bufio.NewScanner(os.Stdin)
+	fmt.Print("Enter port to listen on: ")
+	scanner.Scan()
+	ln, err := net.Listen("tcp", ":"+scanner.Text())
 	defer ln.Close()
 	if err != nil {
 		// handle error
@@ -34,7 +38,6 @@ func listen() {
 		if err != nil {
 			// handle error
 		}
-		fmt.Println(conn)
 		connections = append(connections, conn)
 		go client(conn)
 	}
@@ -50,6 +53,8 @@ func client(conn net.Conn) {
 			if e != conn {
 				fmt.Fprintln(e, status)
 			}
+
 		}
+		fmt.Print(status)
 	}
 }

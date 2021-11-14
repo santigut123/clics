@@ -28,6 +28,7 @@ func main() {
 	scanner.Scan()
 
 	name = scanner.Text() + ": "
+	fmt.Fprintln(conn, scanner.Text()+" connected")
 
 	for {
 		fmt.Print(name)
