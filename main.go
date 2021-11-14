@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net"
+	"time"
 )
 
 type ChatServer struct {
@@ -27,6 +28,7 @@ func main() {
 	if err != nil {
 		// handle error
 	}
+
 	for {
 		conn, err := ln.Accept()
 		if err != nil {
@@ -34,6 +36,10 @@ func main() {
 			continue
 		}
 		fmt.Println(conn)
+		if conn != nil {
+			// io.WriteString(conn, fmt.Sprint("Hello World \n", time.Now(), "\n"))
+			fmt.Fprintln(conn, time.Now())
+		}
 	}
 
 }
