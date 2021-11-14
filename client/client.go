@@ -31,7 +31,6 @@ func main() {
 	fmt.Fprintln(conn, scanner.Text()+" connected")
 
 	for {
-		fmt.Print(name)
 		scanner.Scan()
 		fmt.Fprintln(conn, name+scanner.Text())
 	}
