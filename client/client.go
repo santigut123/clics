@@ -18,6 +18,7 @@ import (
 	"bufio"
 	"fmt"
 	"net"
+	// "os"
 )
 
 func main() {
@@ -26,8 +27,10 @@ func main() {
 		// handle error
 	}
 	fmt.Fprintf(conn, "GET / HTTP/1.0\r\n\r\n")
+	// scanner := bufio.NewScanner(os.Stdin)
 
 	for {
+		// scanner.Scan()
 		status, err := bufio.NewReader(conn).ReadString('\n')
 		if err != nil {
 			// handle error

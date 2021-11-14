@@ -3,11 +3,12 @@ package main
 import (
 	"fmt"
 	"net"
-	"time"
 )
 
 type ChatServer struct {
 }
+
+var connections []net.Conn
 
 func main() {
 	// fmt.Println("Cool we're printing some shit...\nVery nice.")
@@ -23,6 +24,24 @@ func main() {
 	// conn.Read(buf)
 	// conn.Write([]byte("Writing to connection..."))
 
+	// Create thread to listen for connections
+	go listen()
+
+	i := 0
+
+	for {
+		i++
+		if i%1000000000 == 0 {
+			for _, e := range connections {
+				fmt.Fprintln(e, i)
+			}
+		}
+	}
+
+}
+
+// Listen for, accept, and append new connections
+func listen() {
 	ln, err := net.Listen("tcp", ":8080")
 	defer ln.Close()
 	if err != nil {
@@ -33,13 +52,8 @@ func main() {
 		conn, err := ln.Accept()
 		if err != nil {
 			// handle error
-			continue
 		}
 		fmt.Println(conn)
-		if conn != nil {
-			// io.WriteString(conn, fmt.Sprint("Hello World \n", time.Now(), "\n"))
-			fmt.Fprintln(conn, time.Now())
-		}
+		connections = append(connections, conn)
 	}
-
 }
