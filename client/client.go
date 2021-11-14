@@ -1,17 +1,3 @@
-// package client
-
-// type Client struct {
-// 	port int
-// }
-
-// func MakeClient() *Client {
-// 	newClient := Client{port: 1}
-// 	return &newClient
-// }
-// func (c *Client) SetPort(port int) {
-// 	c.port = port
-// }
-
 package main
 
 import (
@@ -22,6 +8,7 @@ import (
 )
 
 var connection net.Conn
+var name string
 
 func main() {
 
@@ -32,17 +19,19 @@ func main() {
 	connection = conn
 	go listen()
 	scanner := bufio.NewScanner(os.Stdin)
+	fmt.Print("Enter your name: ")
+	scanner.Scan()
+
+	name = scanner.Text() + ": "
 
 	for {
+		fmt.Print(name)
 		scanner.Scan()
-		fmt.Fprintln(conn, scanner.Text())
+		fmt.Fprintln(conn, name+scanner.Text())
 	}
 }
 
 func listen() {
-
-	fmt.Fprintf(connection, "GET / HTTP/1.0\r\n\r\n")
-
 	for {
 		status, err := bufio.NewReader(connection).ReadString('\n')
 		if err != nil {
