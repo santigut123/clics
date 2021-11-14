@@ -11,14 +11,19 @@ var connection net.Conn
 var name string
 
 func main() {
+	scanner := bufio.NewScanner(os.Stdin)
+	fmt.Print("Enter ip:port : ")
+	scanner.Scan()
 
-	conn, err := net.Dial("tcp", "localhost:8080")
+	conn, err := net.Dial("tcp", scanner.Text())
 	if err != nil {
 		// handle error
+		panic(err)
 	}
+	fmt.Println("Connected to " + scanner.Text())
 	connection = conn
 	go listen()
-	scanner := bufio.NewScanner(os.Stdin)
+
 	fmt.Print("Enter your name: ")
 	scanner.Scan()
 
